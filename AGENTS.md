@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Grok Build(및 Cursor)가 이 레포에서 코드를 바꿀 때 읽는 규칙입니다.
+Grok Build(와서 Cursor)가 이 레포에서 코드를 바꿀 때 읽는 규칙입니다.
 
 ## 이 레포
 
@@ -35,7 +35,7 @@ Grok Build(및 Cursor)가 이 레포에서 코드를 바꿀 때 읽는 규칙입
 
 ## Grok Build
 
-- 보통: 레포 루트에서 `grok`. 비트리얼이 아니면 plan 모드.
+- 보통: 레포 루트에서 `grok`. 사소한 일이 아니면 plan 모드.
 - 반복 작업은 `.grok/skills/` 에 SKILL.md로. `/skillify`로 남긴 세션을 우선.
 - 조사·구현·리뷰는 서브에이전트로 나눌 것. 동일 파일을 두 에이전트가 같이 수정하지 말 것.
 - 스크립트·CI는 `grok -p "…"` 헤드리스.
@@ -45,5 +45,5 @@ Grok Build(및 Cursor)가 이 레포에서 코드를 바꿀 때 읽는 규칙입
 ## 하지 말 것
 
 - 사용자가 먼저 승인한 경로만 쓰고, 스크립트를 바이파스하지 말 것.
-- `main`에 직접 포스 푸시하지 말 것.
+- `main`에 직접 force-push 하지 말 것.
 - 다른 레포(tsla-brief, jp-second-brain, my-shorts-generator)를 이 레포처럼 수정하지 말 것.
