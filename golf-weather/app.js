@@ -1,4 +1,5 @@
 import { COURSES } from "./courses.js";
+import { foodCache, foodSectionHtml, ensureFoodState } from "./food.js";
 
 const WMO = {
   0: "맑음", 1: "대체로 맑음", 2: "구름 조금", 3: "흐림",
@@ -23,6 +24,7 @@ const el = {
 const cache = new Map();
 let selectedId = null;
 let loadSeq = 0;
+let detailSeq = 0;
 
 function windDir(deg) {
   const dirs = ["북", "북동", "동", "남동", "남", "남서", "서", "북서"];
@@ -119,7 +121,7 @@ function cardHtml(course, data) {
     </article>`;
 }
 
-function detailHtml(course, data) {
+function detailHtml(course, data, foodState) {
   const days = data.daily.time.map((t, i) => {
     const d = new Date(t + "T12:00:00");
     const label = d.toLocaleDateString("ko-KR", { weekday: "short", month: "numeric", day: "numeric" });
@@ -137,7 +139,31 @@ function detailHtml(course, data) {
   return `
     <h3>${course.name} · 3일 예보</h3>
     <div class="days">${days}</div>
-    <p class="note">데이터: Open-Meteo · 좌표: OpenStreetMap · ${new Date().toLocaleString("ko-KR", { timeZone: "Asia/Seoul" })} 기준</p>`;
+    ${foodSectionHtml(foodState)}
+    <p class="note">데이터: Open-Meteo · 좌표·맛집: OpenStreetMap · ${new Date().toLocaleString("ko-KR", { timeZone: "Asia/Seoul" })} 기준</p>`;
+}
+
+async function showDetail(course) {
+  const seq = ++detailSeq;
+  selectedId = course.id;
+  document.querySelectorAll(".card").forEach(n => n.classList.toggle("active", n.dataset.id === selectedId));
+  try {
+    const [{ data }] = await ensureWeather([course]);
+    if (seq !== detailSeq) return;
+    const cachedFood = foodCache.get(course.id);
+    el.detail.hidden = false;
+    el.detail.innerHTML = detailHtml(course, data, cachedFood || { status: "loading", items: [] });
+    el.detail.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    if (!cachedFood) {
+      const foodState = await ensureFoodState(course);
+      if (seq !== detailSeq || selectedId !== course.id) return;
+      el.detail.innerHTML = detailHtml(course, data, foodState);
+    }
+  } catch (e) {
+    if (seq !== detailSeq) return;
+    el.status.textContent = e.message || "상세 불러오기 실패";
+    el.status.classList.add("error");
+  }
 }
 
 async function loadAll() {
@@ -154,8 +180,9 @@ async function loadAll() {
     if (selectedId) {
       const hit = results.find(r => r.course.id === selectedId);
       if (hit) {
+        const foodState = foodCache.get(selectedId) || { status: "loading", items: [] };
         el.detail.hidden = false;
-        el.detail.innerHTML = detailHtml(hit.course, hit.data);
+        el.detail.innerHTML = detailHtml(hit.course, hit.data, foodState);
       }
     }
   } catch (e) {
@@ -171,21 +198,20 @@ function bind() {
   el.region.innerHTML = `<option value="">전체 지역</option>` +
     regions().map(r => `<option value="${r}">${r}</option>`).join("");
 
-  el.grid.addEventListener("click", async (ev) => {
+  el.grid.addEventListener("click", (ev) => {
     const card = ev.target.closest(".card");
     if (!card) return;
-    selectedId = card.dataset.id;
-    document.querySelectorAll(".card").forEach(n => n.classList.toggle("active", n.dataset.id === selectedId));
-    const course = COURSES.find(c => c.id === selectedId);
-    try {
-      const [{ data }] = await ensureWeather([course]);
-      el.detail.hidden = false;
-      el.detail.innerHTML = detailHtml(course, data);
-      el.detail.scrollIntoView({ behavior: "smooth", block: "nearest" });
-    } catch (e) {
-      el.status.textContent = e.message || "상세 불러오기 실패";
-      el.status.classList.add("error");
-    }
+    const course = COURSES.find(c => c.id === card.dataset.id);
+    if (course) showDetail(course);
+  });
+
+  el.grid.addEventListener("keydown", (ev) => {
+    if (ev.key !== "Enter" && ev.key !== " ") return;
+    const card = ev.target.closest(".card");
+    if (!card) return;
+    ev.preventDefault();
+    const course = COURSES.find(c => c.id === card.dataset.id);
+    if (course) showDetail(course);
   });
 
   // Filter uses cache — do not clear (that caused repeat 429s)
@@ -197,6 +223,7 @@ function bind() {
   el.region.addEventListener("change", loadAll);
   el.refresh.addEventListener("click", () => {
     cache.clear();
+    foodCache.clear();
     loadAll();
   });
 }
