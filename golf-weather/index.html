@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>주요 골프장 날씨</title>
+  <meta name="description" content="한국 주요 골프장 현재 날씨와 3일 예보" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>주요 골프장 날씨</h1>
+        <p class="sub">현재 기온·바람·강수와 3일 예보 · 좌표는 OpenStreetMap, 날씨는 Open-Meteo</p>
+      </div>
+      <div class="controls">
+        <input id="q" type="search" placeholder="골프장·지역 검색" autocomplete="off" />
+        <select id="region" aria-label="지역"></select>
+        <button id="refresh" type="button">새로고침</button>
+      </div>
+    </header>
+    <div id="status" class="status" aria-live="polite"></div>
+    <div id="grid" class="grid"></div>
+    <section id="detail" class="detail" hidden></section>
+  </div>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
