@@ -13,6 +13,12 @@ python3 -m http.server 5173
 
 브라우저에서 `http://localhost:5173` 을 엽니다.
 
+## 배포
+
+`main`에 `golf-weather/` 변경이 푸시되면 GitHub Actions(`.github/workflows/pages.yml`)가 Pages로 배포합니다.
+저장소 Settings → Pages → Source를 **GitHub Actions**로 두면 됩니다.
+배포 URL은 보통 `https://kjpia21-design.github.io/grok-bot/` 입니다. (private 저장소는 플랜에 따라 Pages가 제한될 수 있습니다.)
+
 ## 데이터
 
 - 골프장 좌표: OpenStreetMap `leisure=golf_course`
