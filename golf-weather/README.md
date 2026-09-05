@@ -17,7 +17,7 @@ python3 -m http.server 5173
 
 - 골프장 좌표: OpenStreetMap `leisure=golf_course`
 - 날씨: [Open-Meteo](https://open-meteo.com/) (API 키 없음)
-- 주변 맛집: OpenStreetMap Overpass (`amenity=restaurant|cafe|fast_food|pub`, 약 3km) — 코스 클릭 시에만 조회·캐시
+- 주변 맛집: OpenStreetMap Overpass (`amenity=restaurant|cafe|fast_food|pub`, 약 3km) — 코스 클릭 시에만 조회·캐시 (`food.js`)
 
 ## 포함 골프장
 
