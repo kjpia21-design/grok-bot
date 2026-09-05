@@ -91,7 +91,6 @@ async function fetchBatch(courses, attempt = 0) {
 async function ensureWeather(courses) {
   const missing = courses.filter(c => !cache.has(c.id));
   if (missing.length) {
-    // Chunk to stay under URL length / provider comfort (~20 pts)
     const CHUNK = 20;
     for (let i = 0; i < missing.length; i += CHUNK) {
       await fetchBatch(missing.slice(i, i + CHUNK));
@@ -188,7 +187,6 @@ function bind() {
     }
   });
 
-  // Filter uses cache — do not clear (that caused repeat 429s)
   let t = null;
   el.q.addEventListener("input", () => {
     clearTimeout(t);
