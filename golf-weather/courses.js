@@ -11,7 +11,7 @@ export const COURSES = [
   { id: "nambu", name: "남부 CC", region: "용인", lat: 37.26291, lon: 127.12529 },
   { id: "hanwon", name: "한원 CC", region: "용인", lat: 37.15951, lon: 127.13342 },
   { id: "giheung", name: "기흥 CC", region: "용인", lat: 37.19307, lon: 127.1477 },
-  { id: "glenrose", name: "글렌로스 CC", region: "용인", lat: 37.25585, lon: 127.28121 },
+  { id: "glenrose", name: "글렌로스 CC", region: "용인", lat: 37.29457, lon: 127.18102 },
   { id: "asiana", name: "아시아나 CC", region: "용인", lat: 37.25585, lon: 127.28121 },
   { id: "pinecreek", name: "파인크리크 CC", region: "용인", lat: 37.09321, lon: 127.23172 },
   { id: "hwasan", name: "화산 CC", region: "화성", lat: 37.15264, lon: 127.23516 },
