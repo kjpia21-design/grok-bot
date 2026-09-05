@@ -81,7 +81,8 @@ button:disabled { opacity: .55; cursor: wait; }
   margin-top: 18px;
   background: var(--panel);
   border: 1px solid var(--border);
-  border-radius: 12px; padding: 16px;
+  border-radius: var(--radius);
+  padding: 16px;
   box-shadow: var(--shadow);
 }
 .detail h3 { margin: 0 0 10px; font-size: 1.15rem; }
@@ -93,6 +94,57 @@ button:disabled { opacity: .55; cursor: wait; }
 .day .d { color: var(--muted); font-size: .85rem; margin-bottom: 6px; }
 .day .hl { font-size: 1.15rem; font-weight: 700; }
 .note { margin-top: 12px; color: var(--muted); font-size: .82rem; }
+
+.food {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+.food h4 {
+  margin: 0 0 10px;
+  font-size: 1.05rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+}
+.food-hint { color: var(--muted); font-size: .8rem; font-weight: 500; }
+.food-msg { margin: 0; color: var(--muted); font-size: .92rem; }
+.food-msg.error { color: #ff9b9b; }
+.food-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+.food-list li {
+  background: var(--panel2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+.food-main {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+}
+.food-name { font-weight: 600; }
+.food-dist { color: var(--accent); font-size: .88rem; white-space: nowrap; }
+.food-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-top: 6px;
+}
+.food-link {
+  color: var(--rain);
+  font-size: .85rem;
+  text-decoration: none;
+}
+.food-link:hover { text-decoration: underline; }
 
 @media (max-width: 640px) {
   .days { grid-template-columns: 1fr; }
